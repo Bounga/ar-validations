@@ -1,0 +1,49 @@
+-*-markdown-*-
+
+
+AR Validations
+==============
+
+This ActiveRecord extension provides more validation schemes. There are some useful validation missing added by this plugin to fill the gap.
+
+Available validations are :
+
+* **email**: It checks for presence, length, format and uniqueness. There is no guarantee that a validated email is real and deliverable.
+* **URLs**: It checks for validity of the link by contacting it. If not protocol is not specified, it'll automatically add "http://" in front of the url.
+
+Installation
+------------
+
+In your Rails app root, use the following command-line : 
+
+	cd vendor/plugins
+	hg clone http://bitbucket.org/Bounga/ar-validations/
+	
+or install it system-wide :
+
+	$ sudo gem install ar-validations
+	
+and require it in Rails::Initializer (environment.rb) :
+
+	config.gem 'ar-validations'
+
+
+Example
+-------
+
+In your model :
+
+	class User < ActiveRecord::Base
+      validates_email :email
+      validates_url :url
+    end
+	
+Other
+-----
+
+For more information see [Project homepage](http://www.bitbucket.org/Bounga/ar-validations/)
+
+Problems, comments, and suggestions are welcome on the [ticket system](http://www.bitbucket.org/Bounga/ar-validations/issues/new/)
+
+
+Copyright (c) 2009 Nicolas Cavigneaux, released under the MIT license
