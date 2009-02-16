@@ -12,7 +12,7 @@ module Bounga
         MSG_URL_BAD     = "should be a valid url."
 
         def self.included(base)
-          base.extend Validations::ClassMethods
+          base.extend ::Bounga::ActiveRecord::Validations::ClassMethods
         end
 
         module ClassMethods
