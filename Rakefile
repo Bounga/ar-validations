@@ -7,6 +7,7 @@ require 'rubyforge'
 
 SPEC = Gem::Specification.new do |s|
    s.name               = 'ar-validations'
+   s.rubyforge_project  = 'ar-validations'
    s.version            = '1.0.0'
    s.authors            = ['Nicolas Cavigneaux']
    s.email              = 'nico@bounga.org'
