@@ -53,8 +53,8 @@ module Bounga
           options = fields.extract_options!
 
           validates_each fields do |record, attr, value|
-            validates_presence_of(attr) unless options[:allow_blank]
-            next if options[:allow_blank] and value.blank?
+            validates_presence_of(attr) unless options[:allow_blank] or options[:allow_nil]
+            next if (options[:allow_blank] and value.blank?) or (options[:allow_nil] and value.nil?)
 
             record.send(attr.to_s + "=", "http://#{value}") unless value =~ /^(http|https|ftp)/i
             open(record.send(attr)) rescue record.errors.add(attr, (options[:message] || MSG_URL_BAD))

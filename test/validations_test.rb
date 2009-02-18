@@ -94,6 +94,24 @@ class ValidationsTest < Test::Unit::TestCase
     assert user.valid?, user.inspect
   end
   
+  def test_without_url_with_allow_nil
+    user = UserUrlAllowNil.create
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.errors
+    
+    user = UserUrlAllowNil.create(:url => '')
+    assert_not_nil user.errors, user.errors.inspect
+    assert !user.valid?, user.inspect
+    
+    user = UserMultipleUrlAllowNil.create
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+    
+    user = UserMultipleUrlAllowNil.create(:url => '')
+    assert_not_nil user.errors, user.errors.inspect
+    assert !user.valid?, user.inspect
+  end
+  
   def test_without_email
     user = UserEmail.create
     assert_not_nil user.errors, user.errors.inspect

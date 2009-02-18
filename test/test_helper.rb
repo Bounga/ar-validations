@@ -61,10 +61,18 @@ class UserUrlAllowBlank < Mixin
   validates_url :url, :allow_blank => true
 end
 
+class UserUrlAllowNil < Mixin
+  validates_url :url, :allow_nil => true
+end
+
 class UserMultipleUrl < Mixin
   validates_url :url, :url2
 end
 
 class UserMultipleUrlAllowBlank < Mixin
   validates_url :url, :url2, :allow_blank => true
+end
+
+class UserMultipleUrlAllowNil < Mixin
+  validates_url :url, :url2, :allow_nil => true
 end
