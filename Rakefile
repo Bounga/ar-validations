@@ -8,7 +8,7 @@ require 'rubyforge'
 SPEC = Gem::Specification.new do |s|
    s.name               = 'ar-validations'
    s.rubyforge_project  = 'ar-validations'
-   s.version            = '1.0.0'
+   s.version            = '1.1.0'
    s.authors            = ['Nicolas Cavigneaux']
    s.email              = 'nico@bounga.org'
    s.homepage           = 'http://www.bitbucket.org/Bounga/ar-validations'
@@ -63,7 +63,7 @@ Rake::TestTask.new(:test) do |t|
 end
 
 Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.title    = 'Acts_as_nice_url'
+  rdoc.title    = 'AR Validations'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
