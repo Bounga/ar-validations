@@ -33,12 +33,20 @@ class UserEmailCustom < Mixin
   validates_email :email, :message => "must be valid!"
 end
 
+class UserEmailUpdate < Mixin
+  validates_email :email, :on => :update
+end
+
 class UserEmailUniq < Mixin
   validates_email :email, :uniq => true
 end
 
 class UserEmailAllowBlank < Mixin
   validates_email :email, :allow_blank => true
+end
+
+class UserEmailAllowNil < Mixin
+  validates_email :email, :allow_nil => true
 end
 
 class UserMultipleEmail < Mixin
@@ -55,6 +63,10 @@ end
 
 class UserUrlCustom < Mixin
   validates_url :url, :message => "must be valid!"
+end
+
+class UserUrlUpdate < Mixin
+  validates_url :url, :on => :update
 end
 
 class UserUrlAllowBlank < Mixin

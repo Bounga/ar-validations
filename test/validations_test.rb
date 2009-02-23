@@ -97,7 +97,7 @@ class ValidationsTest < Test::Unit::TestCase
   def test_without_url_with_allow_nil
     user = UserUrlAllowNil.create
     assert user.errors.empty?, user.errors.inspect
-    assert user.valid?, user.errors
+    assert user.valid?, user.inspect
     
     user = UserUrlAllowNil.create(:url => '')
     assert_not_nil user.errors, user.errors.inspect
@@ -112,10 +112,40 @@ class ValidationsTest < Test::Unit::TestCase
     assert !user.valid?, user.inspect
   end
   
+  def test_without_url_on_update
+    user = UserUrlUpdate.create
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.errors.inspect
+    
+    user.update_attribute(:email, 'test@example.com')
+    assert_not_nil user.errors, user.errors.inspect
+    assert !user.valid?, user.inspect
+    
+    user = UserUrlUpdate.first
+    user.update_attribute(:url, 'http://www.google.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+  end
+  
   def test_without_email
     user = UserEmail.create
     assert_not_nil user.errors, user.errors.inspect
     assert !user.valid?, user.inspect
+  end
+  
+  def test_without_email_on_update
+    user = UserEmailUpdate.create
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.errors.inspect
+    
+    user.update_attribute(:url, 'http://www.google.com')
+    assert_not_nil user.errors, user.errors.inspect
+    assert !user.valid?, user.inspect
+    
+    user = UserEmailUpdate.first
+    user.update_attribute(:email, 'test@example.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
   end
   
   def test_good_email
@@ -138,6 +168,16 @@ class ValidationsTest < Test::Unit::TestCase
     user2 = UserEmailUniq.create :email => 'test@example.com'
     assert_not_nil user2.errors, user2.errors.inspect
     assert !user2.valid?, user2.inspect
+    
+    assert_equal(1, User.count)
+    
+    2.times do
+      user = UserEmail.create :email => 'test@example.com'
+      assert user.errors.empty?, user.errors.inspect
+      assert user.valid?, user.inspect
+    end
+    
+    assert_equal(3, User.count)
   end
   
   def test_bad_email_with_custom_message
@@ -179,6 +219,16 @@ class ValidationsTest < Test::Unit::TestCase
     user = UserEmailAllowBlank.create
     assert user.errors.empty?, user.errors.inspect
     assert user.valid?, user.inspect
+  end
+  
+  def test_without_email_with_allow_nil
+    user = UserEmailAllowNil.create
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+    
+    user = UserEmailAllowNil.create(:email => '')
+    assert_not_nil user.errors, user.errors.inspect
+    assert !user.valid?, user.inspect
   end
   
   def test_good_email_with_allow_blank
