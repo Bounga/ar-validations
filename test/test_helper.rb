@@ -57,6 +57,14 @@ class UserMultipleEmailAllowBlank < Mixin
   validates_email :email, :email2, :allow_blank => true
 end
 
+class UserEmailIf < Mixin
+  validates_url :email, :if => Proc.new { |user| user.email.length > 10 }
+end
+
+class UserEmailUnless < Mixin
+  validates_url :email, :unless => Proc.new { |user| user.email.length < 10 }
+end
+
 class UserUrl < Mixin
   validates_url :url
 end

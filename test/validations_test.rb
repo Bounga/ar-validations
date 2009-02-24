@@ -272,4 +272,24 @@ class ValidationsTest < Test::Unit::TestCase
     assert_not_nil user.errors, user.errors.inspect
     assert !user.valid?, user.inspect
   end
+  
+  def test_email_with_if
+    user = UserEmailIf.create(:email => 'test@example.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+    
+    user = UserEmailIf.create(:email => 'tc.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+  end
+  
+  def test_email_with_unless
+    user = UserEmailIf.create(:email => 'test@example.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+    
+    user = UserEmailIf.create(:email => 'tc.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+  end
 end
