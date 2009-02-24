@@ -137,6 +137,26 @@ class ValidationsTest < Test::Unit::TestCase
     assert user.valid?, user.inspect
   end
   
+  def test_url_with_if
+    user = UserUrlIf.create(:url => 'http://www.google.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+    
+    user = UserUrlIf.create(:url => 'http://www.a.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+  end
+  
+  def test_url_with_unless
+    user = UserUrlUnless.create(:url => 'http://www.google.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+    
+    user = UserUrlUnless.create(:url => 'http://www.a.com')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+  end
+  
   def test_without_email
     user = UserEmail.create
     assert_not_nil user.errors, user.errors.inspect

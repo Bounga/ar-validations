@@ -92,3 +92,11 @@ end
 class UserMultipleUrlAllowNil < Mixin
   validates_url :url, :url2, :allow_nil => true
 end
+
+class UserUrlIf < Mixin
+  validates_url :url, :if => Proc.new { |user| user.url.length > 20 }
+end
+
+class UserUrlUnless < Mixin
+  validates_url :url, :unless => Proc.new { |user| user.url.length < 20 }
+end
