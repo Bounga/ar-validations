@@ -8,8 +8,8 @@ This ActiveRecord extension provides more validation schemes. There are some use
 
 Available validations are :
 
-* **email**: It checks for presence, length, format and uniqueness. There is no guarantee that a validated email is real and deliverable.
-* **URLs**: It checks for validity of the link by contacting it. If not protocol is not specified, it'll automatically add "http://" in front of the url.
+* *email*: It checks for presence, length, format and uniqueness. There is no guarantee that a validated email is real and deliverable.
+* *URLs*: It checks for validity of the link by contacting it. If not protocol is not specified, it'll automatically add "http://" in front of the url.
 
 Installation
 ------------

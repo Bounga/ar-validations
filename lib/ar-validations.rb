@@ -18,8 +18,10 @@ module Bounga
 
       # This ActiveRecord extension provides more validation schemes.
       # You can validate:
-      # * **email**: It checks for presence, length, format and uniqueness. There is no guarantee that a validated email is real and deliverable.
-      # * **URLs**: It checks for validity of the link by contacting it. If not protocol is not specified, it'll automatically add "http://" in front of the url.
+      # * *email*: It checks for presence, length, format and uniqueness.
+      #   There is no guarantee that a validated email is real and deliverable.
+      # * *URLs*: It checks for validity of the link by contacting it.
+      #   If not protocol is not specified, it'll automatically add "http://" in front of the url.
       #
       # User example:
       #
@@ -30,12 +32,18 @@ module Bounga
       module ClassMethods
         # Configuration options are:
         #
-        # * +:allow_blank+ - If set to +true+, skips this validation if the attribute is blank (default: +false+)
-        # * +:allow_nil+ - If set to +true+, skips this validation if the attribute is nil (default: +false+)
-        # * +:on+ - Specifies when this validation is active (default is +:save+, other options +:create+, +:update+)
-        # * +:with+ - The regular expression used to validate the email format with (default: RFC-2822 compliant)
-        # * +:uniq+ - If set to +true+, ensure uniqueness of the attribute (default: +false+)
-        # * +:message+ - A custom error message (default: +"should look like an email address."+)
+        # * <tt>:allow_blank</tt> - If set to <tt>true</tt>, skips this validation if the attribute is blank (default: <tt>false</tt>)
+        # * <tt>:allow_nil</tt> - If set to <tt>true</tt>, skips this validation if the attribute is nil (default: <tt>false</tt>)
+        # * <tt>:on</tt> - Specifies when this validation is active (default is <tt>:save</tt>, other options <tt>:create</tt>, <tt>:update</tt>)
+        # * <tt>:with</tt> - The regular expression used to validate the email format with (default: RFC-2822 compliant)
+        # * <tt>:uniq</tt> - If set to <tt>true</tt>, ensure uniqueness of the attribute (default: <tt>false</tt>)
+        # * <tt>:if</tt> - Specifies a method, proc or string to call to determine if the validation should occur (e.g.
+        #   <tt>:if => :allow_validation</tt>, or <tt>:if => Proc.new { |user| user.signup_step > 2 }</tt>). The method, proc
+        #   or string should return or evaluate to a true or false value.
+        # * <tt>:unless</tt> - Specifies a method, proc or string to call to determine if the validation should not occur
+        #   (e.g. <tt>:unless => :skip_validation</tt>, or <tt>:unless => Proc.new { |user| user.signup_step <= 2 }</tt>).
+        #   The method, proc or string should return or evaluate to a true or false value.
+        # * <tt>:message</tt> - A custom error message (default: <tt>"should look like an email address."</tt>)
         def validates_email(*fields)
           options = { :message => MSG_EMAIL_BAD, :on => :save, :with => RE_EMAIL_OK, :allow_blank => false, :allow_nil => false }
           options.update(fields.extract_options!)
@@ -53,18 +61,18 @@ module Bounga
 
         # Configuration options are:
         #
-        # * +:allow_blank+ - If set to +true+, skips this validation if the attribute is blank (default: +false+)
-        # * +:allow_nil+ - If set to +true+, skips this validation if the attribute is nil (default: +false+)
-        # * +:on+ - Specifies when this validation is active (default is +:save+, other options +:create+, +:update+)
-        # * +:with+ - The regular expression used to validate the format with. Custom regexp will disable
-        # real URI verification (no contact with URI) (default: RE_URL_OK)
-        # * +:if+ - Specifies a method, proc or string to call to determine if the validation should occur (e.g.
-        # +:if => :allow_validation+, or +:if => Proc.new { |user| user.signup_step > 2 }+). The method, proc or 
-        # string should return or evaluate to a true or false value.
-        # * +:unless+ - Specifies a method, proc or string to call to determine if the validation should not occur
-        # (e.g. +:unless => :skip_validation+, or +:unless => Proc.new { |user| user.signup_step <= 2 }+). The method,
-        # proc or string should return or evaluate to a true or false value.
-        # * +:message+ - A custom error message (default: +"should be a valid url."+)
+        # * <tt>:allow_blank</tt> - If set to <tt>true</tt>, skips this validation if the attribute is blank (default: <tt>false</tt>)
+        # * <tt>:allow_nil</tt> - If set to <tt>true</tt>, skips this validation if the attribute is nil (default: <tt>false</tt>)
+        # * <tt>:on</tt> - Specifies when this validation is active (default is <tt>:save</tt>, other options <tt>:create</tt>, <tt>:update</tt>)
+        # * <tt>:with</tt> - The regular expression used to validate the format with. Custom regexp will disable
+        #   real URI verification (no contact with URI) (default: RE_URL_OK)
+        # * <tt>:if</tt> - Specifies a method, proc or string to call to determine if the validation should occur (e.g.
+        #   <tt>:if => :allow_validation</tt>, or <tt>:if => Proc.new { |user| user.signup_step > 2 }</tt>). The method, proc
+        #   or string should return or evaluate to a true or false value.
+        # * <tt>:unless</tt> - Specifies a method, proc or string to call to determine if the validation should not occur
+        #   (e.g. <tt>:unless => :skip_validation</tt>, or <tt>:unless => Proc.new { |user| user.signup_step <= 2 }</tt>).
+        #   The method, proc or string should return or evaluate to a true or false value.
+        # * <tt>:message</tt> - A custom error message (default: <tt>"should be a valid url."</tt>)
         def validates_url(*fields)
           options = { :message => MSG_URL_BAD, :on => :save, :with => RE_URL_OK, :allow_blank => false, :allow_nil => false }
           options.update(fields.extract_options!)
