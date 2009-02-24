@@ -9,6 +9,7 @@ module Bounga
       RE_DOMAIN_TLD   = '(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)'
       RE_EMAIL_OK     = /\A#{RE_EMAIL_NAME}@#{RE_DOMAIN_HEAD}#{RE_DOMAIN_TLD}\z/i
       MSG_EMAIL_BAD   = "should look like an email address."
+      RE_URL_OK       = /^(http|https|ftp)/i
       MSG_URL_BAD     = "should be a valid url."
 
       def self.included(base)
@@ -55,7 +56,8 @@ module Bounga
         # * +:allow_blank+ - If set to +true+, skips this validation if the attribute is blank (default: +false+)
         # * +:allow_nil+ - If set to +true+, skips this validation if the attribute is nil (default: +false+)
         # * +:on+ - Specifies when this validation is active (default is +:save+, other options +:create+, +:update+)
-        # * +:with+ - The regular expression used to validate the format with (note: must be supplied!)
+        # * +:with+ - The regular expression used to validate the format with. Custom regexp will disable
+        # real URI verification (no contact with URI) (default: RE_URL_OK)
         # * +:if+ - Specifies a method, proc or string to call to determine if the validation should occur (e.g.
         # +:if => :allow_validation+, or +:if => Proc.new { |user| user.signup_step > 2 }+). The method, proc or 
         # string should return or evaluate to a true or false value.
@@ -64,14 +66,18 @@ module Bounga
         # proc or string should return or evaluate to a true or false value.
         # * +:message+ - A custom error message (default: +"should be a valid url."+)
         def validates_url(*fields)
-          options = { :message => MSG_URL_BAD, :on => :save, :with => nil, :allow_blank => false, :allow_nil => false }
+          options = { :message => MSG_URL_BAD, :on => :save, :with => RE_URL_OK, :allow_blank => false, :allow_nil => false }
           options.update(fields.extract_options!)
 
           validates_each(fields, options) do |record, attr, value|
             validates_presence_of(attr) unless options[:allow_nil] or options[:allow_blank]
 
-            record.send(attr.to_s + "=", "http://#{value}") unless value =~ /^(http|https|ftp)/i 
-            open(record.send(attr)) rescue record.errors.add(attr, options[:message]) unless value.blank?
+            if options[:with] == RE_URL_OK
+              record.send(attr.to_s + "=", "http://#{value}") unless value =~ options[:with] 
+              open(record.send(attr)) rescue record.errors.add(attr, options[:message]) unless value.blank?
+            else
+              record.errors.add(attr, options[:message]) unless value =~ options[:with]
+            end
           end
         end
       end

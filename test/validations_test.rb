@@ -127,6 +127,16 @@ class ValidationsTest < Test::Unit::TestCase
     assert user.valid?, user.inspect
   end
   
+  def test_url_with_custom_regexp
+    user = UserUrlCustomRe.create(:url => 'http://www.google.com')
+    assert_not_nil user.errors, user.errors.inspect
+    assert !user.valid?, user.inspect
+    
+    user = UserUrlCustomRe.create(:url => 'vnc://localhost')
+    assert user.errors.empty?, user.errors.inspect
+    assert user.valid?, user.inspect
+  end
+  
   def test_without_email
     user = UserEmail.create
     assert_not_nil user.errors, user.errors.inspect

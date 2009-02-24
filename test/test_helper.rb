@@ -65,6 +65,10 @@ class UserUrlCustom < Mixin
   validates_url :url, :message => "must be valid!"
 end
 
+class UserUrlCustomRe < Mixin
+  validates_url :url, :with => /^vnc/i
+end
+
 class UserUrlUpdate < Mixin
   validates_url :url, :on => :update
 end
